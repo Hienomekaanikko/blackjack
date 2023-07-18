@@ -1,0 +1,79 @@
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+import random
+
+#scores
+user = []
+computer = []
+
+game_status = input("Do you want to play a round of Black Jack? Y or N: ")
+
+def combine_scores(p1, p2):
+  print(f"Your total score is {user_points()}")
+  print(f"Computers total score is {computer_points()}")
+
+def user_points():
+  user_amount = sum(user)
+  return user_amount
+
+def computer_points():
+  computer_amount = sum(computer)
+  return computer_amount
+  
+def total_check(p1, p2):
+  if user_points() == 21 and computer_points() < user_points():
+    print("You won!")
+  elif computer_points() > 21 and user_points() <= 21:
+    for i in computer:
+      if i == 11:
+        computer[i] = 1
+        next_round_of_cards(user, computer)
+      else:
+        print("You won!")
+      first_round_of_cards(user, computer)
+        
+  elif computer_points() == 21:
+    print("You lost!")
+  elif user_points() > 21:
+    for i in user:
+      if user[i] == 11:
+        user[i] = 1
+        next_round_of_cards(user, computer)
+    print("You lost!")
+  elif user_points() < 21:
+    proceed = input("Type 'y' to get another card, 'n' to pass ")
+    if proceed == "y":
+      next_round_of_cards(user, computer)
+    else:
+      computer_draw()
+  combine_scores(user, computer)    
+
+def computer_draw():
+  if sum(computer) < 17:
+    computer.append(random.choice(cards))
+    total_check(user, computer)
+  else:
+    print(f"Your cards: {user}")
+    print(f"Computers cards: {computer}")
+    total_check(user, computer)
+    
+def next_round_of_cards(p1, p2):
+  user.append(random.choice(cards))
+  computer.append(random.choice(cards))
+  print(f"Your cards: {user}")
+  print(f"Computers cards: {computer}")
+  total_check(user, computer)
+ 
+def first_round_of_cards(p1, p2):
+  while len(user) <= 1:
+    user.append(random.choice(cards))
+  while len(computer) <= 1:
+    computer.append(random.choice(cards))
+  print(f"Your cards: {user}")
+  print(f"Computers cards: {computer}")
+first_round_of_cards(user, computer)
+total_check(user, computer)
+
+
+
