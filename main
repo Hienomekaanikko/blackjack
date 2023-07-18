@@ -1,7 +1,7 @@
-
 import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
 
 #scores
 user = []
@@ -13,10 +13,6 @@ def combine_scores(p1, p2):
   print(f"Your cards: {user}, Computers cards: {computer}")
   print(f"Your total score is {user_points()}")
   print(f"Computers total score is {computer_points()}")
-  if computer_points() > 21:
-    print("You won!")
-  elif user_points() > 21: 
-    print("You lost!")
 
 def user_points():
   user_amount = sum(user)
@@ -26,16 +22,24 @@ def computer_points():
   computer_amount = sum(computer)
   return computer_amount
 
+def who_won(p1, p2):
+  my = user_points()
+  pc = computer_points()
+  if my > pc:
+    print("You Win!")
+  else:
+    print("You lost.")
+
 def computer_draw():
   if computer_points() < 17:
     computer.append(random.choice(cards))
     total_check(user, computer)
   else:
-    total_check(user, computer)
+    who_won(user, computer)
     
 def total_check(p1, p2):
   combine_scores(user, computer)
-  if user_points() < 21:
+  if user_points() < 21 and computer_points() < 21:
     proceed = input("Type 'y' to get another card, 'n' to pass ")
     if proceed == "y":
       next_round_of_cards(user, computer)
@@ -46,7 +50,7 @@ def total_check(p1, p2):
   elif user_points() == 21:
     print("You won.")
   elif user_points() > 21:
-    print("You lost.")
+    print("You lost!")
   elif computer_points() > 21:
     print("You won.")
     
