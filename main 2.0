@@ -33,7 +33,6 @@ def ask_for_next_round():
     else:
       if sum(computer) < 17:
         computer_round()
-        who_won(user, computer)
       else:
         who_won(user, computer)
 
@@ -86,7 +85,7 @@ def limit_check(p1, p2):
 def computer_round():
   replit.clear()
   computer.append(random.choice(cards))
-  who_won(user, computer)
+  limit_check(user, computer)
   
 def round_of_cards(p1, p2):
   while len(user) < 1 and len(computer) < 1:
