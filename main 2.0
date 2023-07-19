@@ -93,6 +93,8 @@ def round_of_cards(p1, p2):
     computer.append(random.choice(cards))
   else:
     user.append(random.choice(cards))
+    if sum(user) > 21:
+      who_won(user, computer)
     if sum(computer) < 17:
       computer.append(random.choice(cards))
   limit_check(user, computer)
