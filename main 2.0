@@ -1,0 +1,112 @@
+import replit
+import random
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+user = []
+computer = []
+limit = 21
+computer_limit = 17
+
+def user_aces():
+    for i in range(len(user)):
+      if user[i] == 11:
+        user[i] = 1
+    ask_for_next_round()
+  
+def computer_aces():
+    for i in range(len(computer)):
+      if computer[i] == 11:
+        computer[i] = 1
+    ask_for_next_round()    
+
+def ask_for_next_round():
+  if sum(user) >= 21 or sum(computer) >= 21:
+    who_won(user, computer)
+  else:
+    replit.clear()
+    print(f"Your points: {sum(user)}, Computers points: {sum(computer)}.")
+    print(f"Your cards: {user}, Computers cards: {computer}")
+    status = input("Do you want to add another card? 'y' of 'n'. ")
+    if status == "y":
+      replit.clear()
+      round_of_cards(user, computer)
+    else:
+      if sum(computer) < 17:
+        computer_round()
+        who_won(user, computer)
+      else:
+        who_won(user, computer)
+
+def who_won(p1, p2):
+  replit.clear()
+  my = sum(user)
+  pc = sum(computer)
+  print(f"Your points: {user}, combined: {my}")
+  print(f"Computers points: {computer}, combined: {pc}")
+  if my > pc and my <= limit:
+    print("You Win!")
+    new_game()
+  elif my < pc and pc <= limit:
+    print("You lost.")
+    new_game()
+  elif pc > limit and my <= limit:
+    print("You won!")
+    new_game()
+  elif my > limit and pc < my:
+    print("You lost!")
+    new_game()
+  elif my == pc:
+    print("Tie!")
+    new_game()
+
+def limit_check(p1, p2):
+  if sum(user) > 21 and sum(computer) < 21:
+    user_aces()
+    if sum(user) < 21:
+      limit_check(user, computer)
+    else:
+      who_won(user, computer)
+      new_game()
+  elif sum(computer) > 21 and sum(user) < 21:
+    computer_aces()
+    if sum(computer) < 21:
+      limit_check(user, computer)
+    else:
+      print("You won!")
+      new_game()
+  elif sum(user) < 21 and sum(computer) < 21:
+    ask_for_next_round()
+  elif sum(user) == 21 or sum(computer) == 21:
+    who_won(user, computer)
+  elif sum(user) > 21 or sum(computer) > 21:
+    who_won(user, computer)
+  elif sum(user) > 21 and sum(computer) > 21:
+    who_won(user, computer)
+
+def computer_round():
+  replit.clear()
+  computer.append(random.choice(cards))
+  who_won(user, computer)
+  
+def round_of_cards(p1, p2):
+  while len(user) < 1 and len(computer) < 1:
+    user.append(random.choice(cards))
+    computer.append(random.choice(cards))
+  else:
+    user.append(random.choice(cards))
+    if sum(computer) < 17:
+      computer.append(random.choice(cards))
+  limit_check(user, computer)
+
+def new_game():
+  game_status = input("Do you want to play another round? 'y' or 'n': ")
+  if game_status == "y":
+    user.clear()
+    computer.clear()
+    round_of_cards(user, computer)
+  else:
+    print("See you next time!")
+
+new_game()
+
+    
